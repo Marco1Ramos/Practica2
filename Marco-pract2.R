@@ -145,12 +145,12 @@ no_relative <- tabla3
 
 # Genera 1er histograma
 p1 <- ggplot(data.frame(x=relative), aes(x=x)) + 
-  geom_histogram(aes(y=..count..), fill="blue", alpha=0.5) +
+  geom_histogram(aes(y=..count..), fill="yellow", alpha=0.5) +
   labs(title="Histograma de relative", x="Valores", y="Frecuencia") 
 
 # Genera 2do histograma
 p2 <- ggplot(data.frame(x=no_relative), aes(x=x)) + 
-  geom_histogram(aes(y=..count..), fill="red", alpha=0.5) +
+  geom_histogram(aes(y=..count..), fill="green", alpha=0.5) +
   labs(title="Histograma de no-relative", x="Valores", y="Frecuencia")
 
 # Genera 3er histograma
@@ -161,7 +161,7 @@ data <- data.frame(x = factor_tabla6)
 
 # Crear el histograma
 p3 <- ggplot(data, aes(x = x)) + 
-  geom_bar(aes(y=..count../sum(..count..)), fill="blue", alpha=0.5, stat = "count") +
+  geom_bar(aes(y=..count../sum(..count..)), fill="yellow", alpha=0.5, stat = "count") +
   labs(title="Histograma de tabla6", x="Valores", y="Frecuencia")
 
 # Ordena los gráficos 
@@ -182,12 +182,12 @@ no_relative <- tabla3
 
 # Genera 1er histograma
 p1 <- ggplot(data.frame(x=relative), aes(x=x)) + 
-  geom_histogram(aes(y=..count..), fill="blue", alpha=0.5) +
+  geom_histogram(aes(y=..count..), fill="yellow", alpha=0.5) +
   labs(title="Histograma de relative", x="Valores", y="Frecuencia") 
 
 # Genera 2do histograma
 p2 <- ggplot(data.frame(x=no_relative), aes(x=x)) + 
-  geom_histogram(aes(y=..count..), fill="red", alpha=0.5) +
+  geom_histogram(aes(y=..count..), fill="green", alpha=0.5) +
   labs(title="Histograma de no-relative", x="Valores", y="Frecuencia")
 
 # Genera 2do histograma
@@ -198,7 +198,7 @@ data <- data.frame(x = factor_tabla6)
 
 # Genera el histograma
 p3 <- ggplot(data, aes(x = x)) + 
-  geom_bar(aes(y=..count../sum(..count..)), fill="blue", alpha=0.5, stat = "count") +
+  geom_bar(aes(y=..count../sum(..count..)), fill="yellow", alpha=0.5, stat = "count") +
   labs(title="Histograma de tabla6", x="Valores", y="Frecuencia")
 
 p4 <- ggplot(data.frame(x=tabla7), aes(x= "", fill = x)) + 
