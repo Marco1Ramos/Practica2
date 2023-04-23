@@ -1,47 +1,49 @@
 # PREGUNTA 1.1
-#Instalar las librerías: HTTR y XML
-#install.packages("httr")
-#install.packages("XML")
-#install.packages("ggpubr")
+#Librerias
+install.packages("httr")
+install.packages("XML")
+install.packages("ggpubr")
+install.packages("ggplot2")
 
-#Cargar las librerías: HTTR y XML
+
+#Cargar librerías
 library(httr)
 library(XML)
 
-#Definir la URL
+#URL
 url <- "https://www.mediawiki.org/wiki/MediaWiki"
 
-#Descargar la página
+#Download page
 page <- GET(url)
 
 #Status
 status_code(page)
 
-#Convertir el contenido HTML de la página a formato XML
+#De HTML a formato XML
 parsed_page <- htmlParse(content(page, as = "text"))
 
 # PREGUNTA 1.2
-#Título de la página
+#Título pagina
 title <- xpathSApply(parsed_page, "//title", xmlValue)
 title
 
-#Ficheros de estilo
+#Styless
 stylesheets <- xpathSApply(parsed_page, "//link[@rel='stylesheet']/@href")
 stylesheets
 
-#Nombre del autor
+#Autor
 author <- xpathSApply(parsed_page, "//meta[@name='author']/@content")
 author
 
-#Descripción de la página
+#Descripcion
 description <- xpathSApply(parsed_page, "//meta[@name='description']/@content")
 description
 
-#tipo de codificación
+#Codificación Type
 encoding <- xpathSApply(parsed_page, "//meta[@charset]/@charset")
 encoding
 
-#palabras clave
+#keywords
 keywords <- xpathSApply(parsed_page, "//meta[@name='keywords']/@content")
 keywords
 
@@ -141,20 +143,20 @@ tabla7 <- (tabla[TRUE, c("scraps")])
 relative <- tabla2
 no_relative <- tabla3
 
-# Crear el primer histograma
+# Genera 1er histograma
 p1 <- ggplot(data.frame(x=relative), aes(x=x)) + 
   geom_histogram(aes(y=..count..), fill="blue", alpha=0.5) +
   labs(title="Histograma de relative", x="Valores", y="Frecuencia") 
 
-# Crear el segundo histograma
+# Genera 2do histograma
 p2 <- ggplot(data.frame(x=no_relative), aes(x=x)) + 
   geom_histogram(aes(y=..count..), fill="red", alpha=0.5) +
   labs(title="Histograma de no-relative", x="Valores", y="Frecuencia")
 
-# Tercer histograma
+# Genera 3er histograma
 factor_tabla6 <- factor(tabla6, levels = c("S", "N"))
 
-# Crear un data frame con la columna "x"
+# Data frame columna "x"
 data <- data.frame(x = factor_tabla6)
 
 # Crear el histograma
@@ -162,39 +164,39 @@ p3 <- ggplot(data, aes(x = x)) +
   geom_bar(aes(y=..count../sum(..count..)), fill="blue", alpha=0.5, stat = "count") +
   labs(title="Histograma de tabla6", x="Valores", y="Frecuencia")
 
-# Ajustar la apariencia de los gráficos (opcional)
+# Ordena los gráficos 
 theme_set(theme_classic())
 
-# Acomodar los gráficos en dos filas y una columna usando ggarrange()
+# Ordena filas y columnas
 ggarrange(p1, p2, p3, ncol=1, heights=c(1,1,1.2))
 
 #PREGUNTA 2.3
-# Cargar las bibliotecas ggplot2 y ggpubr
+# Librerias ggplot2 y ggpubr
 
 library(ggplot2)
 library(ggpubr)
 
-# Crear datos
+# Crea datos
 relative <- tabla2
 no_relative <- tabla3
 
-# Crear el primer histograma
+# Genera 1er histograma
 p1 <- ggplot(data.frame(x=relative), aes(x=x)) + 
   geom_histogram(aes(y=..count..), fill="blue", alpha=0.5) +
   labs(title="Histograma de relative", x="Valores", y="Frecuencia") 
 
-# Crear el segundo histograma
+# Genera 2do histograma
 p2 <- ggplot(data.frame(x=no_relative), aes(x=x)) + 
   geom_histogram(aes(y=..count..), fill="red", alpha=0.5) +
   labs(title="Histograma de no-relative", x="Valores", y="Frecuencia")
 
-# Tercer histograma
+# Genera 2do histograma
 factor_tabla6 <- factor(tabla6, levels = c("S", "N"))
 
-# Crear un data frame con la columna "x"
+# Data frame columna "x"
 data <- data.frame(x = factor_tabla6)
 
-# Crear el histograma
+# Genera el histograma
 p3 <- ggplot(data, aes(x = x)) + 
   geom_bar(aes(y=..count../sum(..count..)), fill="blue", alpha=0.5, stat = "count") +
   labs(title="Histograma de tabla6", x="Valores", y="Frecuencia")
@@ -203,37 +205,11 @@ p4 <- ggplot(data.frame(x=tabla7), aes(x= "", fill = x)) +
   geom_bar(width = 1) + coord_polar(theta = "y") +
   labs(title="status code")
 
-# Ajustar la apariencia de los gráficos (opcional)
+# Ordena gráficos
 theme_set(theme_classic())
 
-# Acomodar los gráficos en dos filas y una columna usando ggarrange()
+# Reordena 2 filas, 1 columna 
 ggarrange(p1, p2, p3, p4, ncol=1, heights=c(1,1,1,1.2))
 
 
-
-
-#otraforma Pregunta 2.3
-# Hallando la frecuencia del status_code
-cod_freq <- table(tabla$scraps)
-
-# Hallando el porcentaje en % ( o.9 a 90%)
-value_percent <- round(prop.table(cod_freq) * 100, 2)
-value_percent <- as.numeric(value_percent)
-# data 
-code_full <- data.frame(code_status = names(cod_freq),
-                        frequency = as.numeric(cod_freq),
-                        percentage = value_percent)
-
-
-
-# Mostrando pie chart
-chart_graphic <- ggplot(code_full, aes(x="", y=percentage, fill=code_status)) +
-  geom_bar(width = 1, stat = "identity") +
-  coord_polar("y", start=0) +
-  ggtitle("Pie chart") +
-  theme_void() +
-  geom_text(aes(label = paste0(percentage, "%")), position = position_stack(vjust = 0.5), size = 3)
-
-# Mostrando las tres gráficas en una sola figura
-grid.arrange(histogram, bar_graphic, chart_graphic, ncol=3)
 
